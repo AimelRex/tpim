@@ -70,6 +70,21 @@ public class DataBase {
             e.printStackTrace();
         }
         //les photos, on recup les photos d'un bien, on check si id_pièce est nul si oui on l'ajoute juste au bien, si non on check si id_equipement....
+        //genre SELECT ... WHERE id_biens = id   genre on prend que ceux de la liste !
+    }
+
+
+    public void loadType(){
+        try{
+            Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement stmtType = conn.createStatement();
+            ResultSet rsType = stmtType.executeQuery("SELECT * FROM typeEquipement");
+            while(rsType.next()){
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
