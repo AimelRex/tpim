@@ -10,9 +10,12 @@ public class Biens {
     private String description;
     private boolean libre;
 
-    private ArrayList<Photo> photosBiens;
+    private ArrayList<Photo> photosBiens = new ArrayList<Photo>();
 
-    public Biens(int id, String rue, String cp, String ville, double prix, int anneeConstru, String description, boolean libre, ArrayList<Photo> photosBiens) {
+
+    private ArrayList<Piece> piecesBiens = new ArrayList<Piece>();
+
+    public Biens(int id, String rue, String cp, String ville, double prix, int anneeConstru, String description, boolean libre) {
         this.id = id;
         this.rue = rue;
         this.cp = cp;
@@ -21,7 +24,6 @@ public class Biens {
         this.anneeConstru = anneeConstru;
         this.description = description;
         this.libre = libre;
-        this.photosBiens = photosBiens;
     }
 
     public int getId() {
@@ -90,6 +92,32 @@ public class Biens {
 
     public void setPhotosBiens(ArrayList<Photo> photosBiens) {
         this.photosBiens = photosBiens;
+    }
+
+    public ArrayList<Piece> getPiecesBiens() {
+        return piecesBiens;
+    }
+
+    public void setPiecesBiens(ArrayList<Piece> piecesBiens) {
+        this.piecesBiens = piecesBiens;
+    }
+
+    // ------------méthodes------------------
+
+    public void addPhoto(Photo p){
+        this.photosBiens.add(p);
+    }
+
+    public void addPiece(Piece p){
+        this.piecesBiens.add(p);
+    }
+
+    public float getSurface(){
+        double surface = 0;
+        for(Piece p : piecesBiens){
+            surface += p.getSurface();
+        }
+        return (float) surface;
     }
 
 

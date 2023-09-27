@@ -6,14 +6,13 @@ public class Equipements {
     private int id_typeEquipement;
     private int id_pieces;
 
-    private ArrayList<Photo> photosEquipements;
+    private ArrayList<Photo> photosEquipements = new ArrayList<Photo>();
 
-    public Equipements(int id, String libelle, int id_typeEquipement, int id_pieces, ArrayList<Photo> photosEquipements) {
+    public Equipements(int id, String libelle, int id_typeEquipement, int id_pieces) {
         this.id = id;
         this.libelle = libelle;
         this.id_typeEquipement = id_typeEquipement;
         this.id_pieces = id_pieces;
-        this.photosEquipements = photosEquipements;
     }
 
 
@@ -52,5 +51,11 @@ public class Equipements {
 
     public void setPhotosEquipements(ArrayList<Photo> photosEquipements) {
         this.photosEquipements = photosEquipements;
+    }
+
+    //---------méthodes--------
+
+    public void addPhoto(Photo p){
+        this.photosEquipements.add(p);
     }
 }

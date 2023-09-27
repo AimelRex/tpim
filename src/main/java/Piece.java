@@ -5,16 +5,14 @@ public class Piece {
     private double surface;
     private String libelle;
     private int id_biens;
-    private ArrayList<Photo> photosPieces;
-    private ArrayList<Equipements> equipementsPiece;
+    private ArrayList<Photo> photosPieces = new ArrayList<Photo>();
+    private ArrayList<Equipements> equipementsPiece = new ArrayList<Equipements>();
 
-    public Piece(int id, double surface, String libelle, int id_biens, ArrayList<Photo> photosPieces, ArrayList<Equipements> equipementsPiece) {
+    public Piece(int id, double surface, String libelle, int id_biens) {
         this.id = id;
         this.surface = surface;
         this.libelle = libelle;
         this.id_biens = id_biens;
-        this.photosPieces = photosPieces;
-        this.equipementsPiece = equipementsPiece;
     }
 
     public int getId() {
@@ -63,5 +61,15 @@ public class Piece {
 
     public void setEquipementsPiece(ArrayList<Equipements> equipementsPiece) {
         this.equipementsPiece = equipementsPiece;
+    }
+
+    //---------------méthodes------------------
+
+    public void addEquipement(Equipements e){
+        this.equipementsPiece.add(e);
+    }
+
+    public void addPhoto(Photo p){
+        this.photosPieces.add(p);
     }
 }
