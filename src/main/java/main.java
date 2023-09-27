@@ -2,10 +2,8 @@ public class main {
     public static void main(String[] args){
         System.out.println("HAHAHAHAHAHAHAHAH");
 
+        DataBase db = new DataBase();
 
-        // tpImmo v@$4E27q!tNfbTgo
-
-
-
+        db.init();
     }
 }
