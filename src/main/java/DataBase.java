@@ -2,30 +2,35 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DataBase {
-    static final String DB_URL = "jdbc:mysql://172.19.0.38/tpImmo";
-    static final String USER = "tpImmo";
-    static final String PASS = "v@$4E27q!tNfbTgo";
+    //DB de base pour gérer les biens
+    private static final String DB_URL = "jdbc:mysql://172.19.0.38/tpImmo";
+    private static final String USER = "tpImmo";
+    private static final String PASS = "v@$4E27q!tNfbTgo";
+
+    //DB de logs
+    private static final String LOGS_DB_URL = "jdbc:mysql://172.19.0.38/logsTpImmo";
+    private static final String LOGS_USER = "logsTpImmo";
+    private static final String LOGS_PASS = "qtv532ERaRnA2p22";
+
     //les biens affichés
     private ArrayList<Biens> lesBiens = new ArrayList<Biens>();
 
     public void init(){
         //load les 5 premiers biens
-
-        loadBiens(0);
-
-        for(Biens b : lesBiens){
-            String pieces = "";
-            for(Piece p : b.getPiecesBiens()){
-                pieces += " -"+p.getLibelle()+"\n";
-            }
-            System.out.println("Le logement " + b.getId() + " a une surface de " + b.getSurface() + "m² gràce à ses pièces : \n" +pieces+ "");
+        try{
+            loadBiens(0);
+        } catch (SQLLogException e){
+            e.getMessage();
+            System.out.println(e.getMessage());
         }
+
+
 
     }
 
     //on va load les biens selon un offset et limit
     //et on load récursivement
-    public void loadBiens(int offset){
+    public void loadBiens(int offset) throws SQLLogException{
         //on cherche les x premiers biens
         //on load les photos des biens qu'on attribue aux pièces
         // on load les pièces de chaque bien, les équipements de chaque pièce
@@ -40,7 +45,7 @@ public class DataBase {
 
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement stmt = conn.createStatement();
-            String str = "SELECT * FROM biens LIMIT " + offset + ", "+ (offset+5);
+            String str = "SELECT  FROM biens LIMIT " + offset + ", "+ (offset+5);
             ResultSet rs = stmt.executeQuery(str);
             while (rs.next()) {
                 //Ici on fait un bien
@@ -67,7 +72,7 @@ public class DataBase {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLLogException("ça fonctionne");
         }
         //les photos, on recup les photos d'un bien, on check si id_pièce est nul si oui on l'ajoute juste au bien, si non on check si id_equipement....
         //genre SELECT ... WHERE id_biens = id   genre on prend que ceux de la liste !
