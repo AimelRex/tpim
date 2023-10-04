@@ -92,9 +92,19 @@ public class DataBase {
             pstmt.execute();
 
             //mtn récupe de l'id du bien pour add les pièces
-            Statement stmt = conn.createStatement();
-            String str = "SELECT * FROM biens LIMIT "; //rue cp ville
-            ResultSet rs = stmt.executeQuery(str);
+            pstmt = conn.prepareStatement("SELECT id FROM biens WHERE rue = ? AND cp = ? AND ville = ?");
+            pstmt.setString(1,b.getRue());
+            pstmt.setString(2,b.getCp());
+            pstmt.setString(3,b.getVille());
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            b.setId(rs.getInt("id"));
+            //mtn on add chaque pièce pour le bien
+            System.out.println(b.getId());
+
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! METHODE
+            //quand on upload un bien, on upload tout ce qu'il inclut
+
 
 
 
@@ -105,6 +115,24 @@ public class DataBase {
             throw new SQLLogException("Erreur lors de l'upload d'un bien. " + e.getMessage());
         }
     }
+
+
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! A REVOIR !!!!
+    //pour upload un bien
+    //
+    //on créer un bien (on l'upload)
+    //on créer ses pièces (on les upload grâce à l'id du bien)
+    //pour chaque pièce on créer les équipements (qu'on upload grâce à l'id de la pièce)
+    //
+    //
+    //
+    //ce qui implique qu'on peut update/delete/add
+    //
+    //update pour chaque ez
+    //
+    //add pour chaque ez
+    //
+    //delete : delete récursif, on recupe les equipements qu'on supprime après les pièces après le bats
 
 
 

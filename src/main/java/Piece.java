@@ -8,8 +8,16 @@ public class Piece {
     private ArrayList<Photo> photosPieces = new ArrayList<Photo>();
     private ArrayList<Equipements> equipementsPiece = new ArrayList<Equipements>();
 
+    //for when you load
     public Piece(int id, double surface, String libelle, int id_biens) {
         this.id = id;
+        this.surface = surface;
+        this.libelle = libelle;
+        this.id_biens = id_biens;
+    }
+
+    //for when
+    public Piece(double surface, String libelle, int id_biens) {
         this.surface = surface;
         this.libelle = libelle;
         this.id_biens = id_biens;
@@ -68,6 +76,13 @@ public class Piece {
     public void addEquipement(Equipements e){
         this.equipementsPiece.add(e);
     }
+
+    public void createNAddEquipement(String libelle){
+        this.equipementsPiece.add(new Equipements(libelle, this.id));
+    }
+
+    public void deleteEquipement(Equipements e){this.equipementsPiece.remove(e);}
+    public void deleteAllEquipement(){this.equipementsPiece.clear();}
 
     public void addPhoto(Photo p){
         this.photosPieces.add(p);

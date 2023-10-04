@@ -8,8 +8,15 @@ public class Equipements {
 
     private ArrayList<Photo> photosEquipements = new ArrayList<Photo>();
 
+    //when we load
     public Equipements(int id, String libelle, int id_pieces) {
         this.id = id;
+        this.libelle = libelle;
+        this.id_pieces = id_pieces;
+    }
+
+    //when we upload
+    public Equipements(String libelle, int id_pieces) {
         this.libelle = libelle;
         this.id_pieces = id_pieces;
     }

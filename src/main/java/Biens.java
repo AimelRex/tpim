@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Biens {
@@ -17,6 +18,16 @@ public class Biens {
 
     public Biens(int id, String rue, String cp, String ville, double prix, int anneeConstru, String description, boolean libre) {
         this.id = id;
+        this.rue = rue;
+        this.cp = cp;
+        this.ville = ville;
+        this.prix = prix;
+        this.anneeConstru = anneeConstru;
+        this.description = description;
+        this.libre = libre;
+    }
+
+    public Biens(String rue, String cp, String ville, double prix, int anneeConstru, String description, boolean libre) {
         this.rue = rue;
         this.cp = cp;
         this.ville = ville;
@@ -82,6 +93,10 @@ public class Biens {
         return libre;
     }
 
+    public void setId(int _id){
+        this.id = _id;
+    }
+
     public void setLibre(boolean libre) {
         this.libre = libre;
     }
@@ -109,6 +124,14 @@ public class Biens {
     }
 
     public void addPiece(Piece p){
+        this.piecesBiens.add(p);
+    }
+    public void removePiece(Piece p){this.piecesBiens.remove(p);}//remove récursivemment
+
+    public void removeAllPiece(){this.piecesBiens.clear();}//remove les equipements aussi là
+
+    public void createNAddPiece (double surface, String libelle) {
+        Piece p = new Piece(surface, libelle, this.id);
         this.piecesBiens.add(p);
     }
 
