@@ -20,7 +20,6 @@ public class DataBase {
         try{
             loadBiens(0);
         } catch (SQLLogException e){
-            e.getMessage();
             System.out.println(e.getMessage());
         }
 
@@ -45,7 +44,7 @@ public class DataBase {
 
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement stmt = conn.createStatement();
-            String str = "SELECT  FROM biens LIMIT " + offset + ", "+ (offset+5);
+            String str = "SELECT * FROM biens LIMIT " + offset + ", "+ (offset+5);
             ResultSet rs = stmt.executeQuery(str);
             while (rs.next()) {
                 //Ici on fait un bien
@@ -72,7 +71,7 @@ public class DataBase {
             }
 
         } catch (SQLException e) {
-            throw new SQLLogException("ça fonctionne");
+            throw new SQLLogException("Erreur lors du chargement des biens. " + e.getMessage());
         }
         //les photos, on recup les photos d'un bien, on check si id_pièce est nul si oui on l'ajoute juste au bien, si non on check si id_equipement....
         //genre SELECT ... WHERE id_biens = id   genre on prend que ceux de la liste !
@@ -91,7 +90,6 @@ public class DataBase {
             e.printStackTrace();
         }
     }
-
 
 
 }

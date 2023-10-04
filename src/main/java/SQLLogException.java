@@ -1,13 +1,14 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.sql.*;
 import java.time.LocalDateTime;
 
 public class SQLLogException extends Exception{
 
     private LocalDateTime date;
     private int id;
+
+    private String app = "TP Agence Immo";
 
 
     public SQLLogException(String message) {
@@ -24,11 +25,17 @@ public class SQLLogException extends Exception{
 
         try {
             Connection conn = DriverManager.getConnection(LOGS_DB_URL, LOGS_USER, LOGS_PASS);
-            Statement stmt = conn.createStatement();
-            String str = "INSERT INTO `Logs`(`message`, `stackTrace`, `date`) VALUES ('"+this.getMessage()+"','"+this.getStackTrace().toString()+"','"+this.getDate()+"')";
-            stmt.execute(str);
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO `Logs`(`message`, `stackTrace`, `date`, `app`) VALUES ( ? , ? , ? , ?)");
+            StringWriter errors = new StringWriter();
+            this.printStackTrace(new PrintWriter(errors));
+            stmt.setString(1,this.getMessage());
+            stmt.setString(2,errors.toString());
+            stmt.setString(3,this.getDate().toString());
+            stmt.setString(4,app);
+            stmt.execute();
+            //this.getMessage()      +     errors     +       this.getDate()
         } catch (Exception e){
-            System.out.println("L'upload de la log s'est mal passé : "+e.getMessage());
+            System.out.println("L'upload de la log s'est mal passé : ");
             e.printStackTrace();
         }
     }
