@@ -8,7 +8,7 @@ public class SQLLogException extends Exception{
     private LocalDateTime date;
     private int id;
 
-    private String app = "TP Agence Immo";
+    private String app = "TP Agence Immo (cli)";
 
 
     public SQLLogException(String message) {

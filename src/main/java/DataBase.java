@@ -22,9 +22,6 @@ public class DataBase {
         } catch (SQLLogException e){
             System.out.println(e.getMessage());
         }
-
-
-
     }
 
     //on va load les biens selon un offset et limit
@@ -40,7 +37,6 @@ public class DataBase {
         // ou meme mieux, on delete tout quand on arrive et après on load
 
         try{
-            //il faut load tous les types d'éqquipementss
 
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement stmt = conn.createStatement();
@@ -54,13 +50,16 @@ public class DataBase {
                 Statement stmtPiece = conn.createStatement();
                 ResultSet rsPiece = stmtPiece.executeQuery("SELECT * FROM pieces WHERE id_biens="+b.getId());
                 while(rsPiece.next()){
+                    //pièces du bien
                     Piece p = new Piece(rsPiece.getInt("id"),rsPiece.getFloat("surface"),rsPiece.getString("libelle"), rsPiece.getInt("id_biens"));
 
                     //mtn faut les équipements de la pièce
                     Statement stmtEquipement = conn.createStatement();
                     ResultSet rsEquipement = stmtEquipement.executeQuery("SELECT * FROM equipements WHERE id_pieces="+p.getId());
                     while(rsEquipement.next()){
-                        Equipements equ = new Equipements(rsEquipement.getInt("id"),rsEquipement.getString("libelle"),rsEquipement.getInt("id_typeEquipement"),rsEquipement.getInt("id_pieces"));
+                        //équipements de la pièce
+                        Equipements equ = new Equipements(rsEquipement.getInt("id"),rsEquipement.getString("libelle"),rsEquipement.getInt("id_pieces"));
+
                         p.addEquipement(equ);
                     }
 
@@ -78,18 +77,7 @@ public class DataBase {
     }
 
 
-    public void loadType(){
-        try{
-            Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            Statement stmtType = conn.createStatement();
-            ResultSet rsType = stmtType.executeQuery("SELECT * FROM typeEquipement");
-            while(rsType.next()){
 
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
 
 }

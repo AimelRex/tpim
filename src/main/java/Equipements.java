@@ -3,15 +3,14 @@ import java.util.ArrayList;
 public class Equipements {
     private int id;
     private String libelle;
-    private int id_typeEquipement;
+
     private int id_pieces;
 
     private ArrayList<Photo> photosEquipements = new ArrayList<Photo>();
 
-    public Equipements(int id, String libelle, int id_typeEquipement, int id_pieces) {
+    public Equipements(int id, String libelle, int id_pieces) {
         this.id = id;
         this.libelle = libelle;
-        this.id_typeEquipement = id_typeEquipement;
         this.id_pieces = id_pieces;
     }
 
@@ -26,14 +25,6 @@ public class Equipements {
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
-    }
-
-    public int getId_typeEquipement() {
-        return id_typeEquipement;
-    }
-
-    public void setId_typeEquipement(int id_typeEquipement) {
-        this.id_typeEquipement = id_typeEquipement;
     }
 
     public int getId_pieces() {
