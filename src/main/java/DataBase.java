@@ -76,6 +76,36 @@ public class DataBase {
         //genre SELECT ... WHERE id_biens = id   genre on prend que ceux de la liste !
     }
 
+    //ordre Bien>piece>equipement   photos
+    public void uploadBien(Biens b) throws SQLLogException{
+        try{
+            Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            //on ajoute le bien
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO `biens`(`rue`, `cp`, `ville`, `prix`, `anneeConstru`, `description`, `libre`) VALUES ( ? , ? , ? , ? , ? , ? , ? )");
+            pstmt.setString(1,b.getRue());
+            pstmt.setString(2,b.getCp());
+            pstmt.setString(3,b.getVille());
+            pstmt.setDouble(4,b.getPrix());
+            pstmt.setInt(5,b.getAnneeConstru());
+            pstmt.setString(6,b.getDescription());
+            pstmt.setBoolean(7,b.isLibre());
+            pstmt.execute();
+
+            //mtn récupe de l'id du bien pour add les pièces
+            Statement stmt = conn.createStatement();
+            String str = "SELECT * FROM biens LIMIT "; //rue cp ville
+            ResultSet rs = stmt.executeQuery(str);
+
+
+
+
+
+
+        } catch (SQLException e){
+            throw new SQLLogException("Erreur lors de l'upload d'un bien. " + e.getMessage());
+        }
+    }
+
 
 
 
