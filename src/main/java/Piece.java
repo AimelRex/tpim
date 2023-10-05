@@ -18,6 +18,7 @@ public class Piece {
 
     //for when
     public Piece(double surface, String libelle, int id_biens) {
+        this.id = -1;
         this.surface = surface;
         this.libelle = libelle;
         this.id_biens = id_biens;

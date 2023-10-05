@@ -78,41 +78,58 @@ public class DataBase {
 
     //ordre Bien>piece>equipement   photos
     public void uploadBien(Biens b) throws SQLLogException{
-        try{
-            Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            //on ajoute le bien
-            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO `biens`(`rue`, `cp`, `ville`, `prix`, `anneeConstru`, `description`, `libre`) VALUES ( ? , ? , ? , ? , ? , ? , ? )");
-            pstmt.setString(1,b.getRue());
-            pstmt.setString(2,b.getCp());
-            pstmt.setString(3,b.getVille());
-            pstmt.setDouble(4,b.getPrix());
-            pstmt.setInt(5,b.getAnneeConstru());
-            pstmt.setString(6,b.getDescription());
-            pstmt.setBoolean(7,b.isLibre());
-            pstmt.execute();
+        if(b.getId() != -1){
+            //le bien a déja été upload, il a déjà un id
+            throw new SQLLogException("Erreur : tentative d'upload d'un bien ayant déjà un id. ");
 
-            //mtn récupe de l'id du bien pour add les pièces
-            pstmt = conn.prepareStatement("SELECT id FROM biens WHERE rue = ? AND cp = ? AND ville = ?");
-            pstmt.setString(1,b.getRue());
-            pstmt.setString(2,b.getCp());
-            pstmt.setString(3,b.getVille());
-            ResultSet rs = pstmt.executeQuery();
-            rs.next();
-            b.setId(rs.getInt("id"));
-            //mtn on add chaque pièce pour le bien
-            System.out.println(b.getId());
+            // peut être dans ce cas, l'update ??
+        } else {
+            try {
+                Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+                //on ajoute le bien
+                PreparedStatement pstmt = conn.prepareStatement("INSERT INTO `biens`(`rue`, `cp`, `ville`, `prix`, `anneeConstru`, `description`, `libre`) VALUES ( ? , ? , ? , ? , ? , ? , ? )");
+                pstmt.setString(1, b.getRue());
+                pstmt.setString(2, b.getCp());
+                pstmt.setString(3, b.getVille());
+                pstmt.setDouble(4, b.getPrix());
+                pstmt.setInt(5, b.getAnneeConstru());
+                pstmt.setString(6, b.getDescription());
+                pstmt.setBoolean(7, b.isLibre());
+                pstmt.execute();
 
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! METHODE
-            //quand on upload un bien, on upload tout ce qu'il inclut
+                //mtn récupe de l'id du bien pour add les pièces
+                pstmt = conn.prepareStatement("SELECT id FROM biens WHERE rue = ? AND cp = ? AND ville = ?");
+                pstmt.setString(1, b.getRue());
+                pstmt.setString(2, b.getCp());
+                pstmt.setString(3, b.getVille());
+                ResultSet rs = pstmt.executeQuery();
+                rs.next();
+                b.setId(rs.getInt("id"));
+
+            } catch (SQLException e) {
+                throw new SQLLogException("Erreur lors de l'upload d'un bien. " + e.getMessage());
+            }
+        }
+    }
 
 
+    public void uploadPiece(Piece p) throws SQLLogException{
+        //on prend le bien en param
+        if(p.getId() != -1){
+            //la pièce a déja été upload, il a déjà un id
+            throw new SQLLogException("Erreur : tentative d'upload d'une pièce ayant déjà un id. ");
+
+            // peut être dans ce cas, l'update ??
+        } else {
+            try{
+                Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+                //on ajoute le bien
+                PreparedStatement pstmt = conn.prepareStatement("INSERT INTO `biens`(`rue`, `cp`, `ville`, `prix`, `anneeConstru`, `description`, `libre`) VALUES ( ? , ? , ? , ? , ? , ? , ? )");
 
 
-
-
-
-        } catch (SQLException e){
-            throw new SQLLogException("Erreur lors de l'upload d'un bien. " + e.getMessage());
+            } catch (SQLException e){
+                throw new SQLLogException("Erreur lors de l'upload d'un bien. " + e.getMessage());
+            }
         }
     }
 
@@ -133,6 +150,26 @@ public class DataBase {
     //add pour chaque ez
     //
     //delete : delete récursif, on recupe les equipements qu'on supprime après les pièces après le bats
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //Faut que je me mette d'accord sur la méthode
+    //soit : on créer chaque un bien qu'on upload on récupe son id, après on créer une pièce du bien
 
 
 

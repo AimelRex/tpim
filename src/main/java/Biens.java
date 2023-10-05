@@ -28,6 +28,7 @@ public class Biens {
     }
 
     public Biens(String rue, String cp, String ville, double prix, int anneeConstru, String description, boolean libre) {
+        this.id = -1;
         this.rue = rue;
         this.cp = cp;
         this.ville = ville;
@@ -130,9 +131,13 @@ public class Biens {
 
     public void removeAllPiece(){this.piecesBiens.clear();}//remove les equipements aussi là
 
-    public void createNAddPiece (double surface, String libelle) {
-        Piece p = new Piece(surface, libelle, this.id);
-        this.piecesBiens.add(p);
+    public boolean createAddPiece(Double surface, String libelle){
+        //faut pas que le bien n'ai pas d'id
+        if(this.id != -1) {
+            this.piecesBiens.add(new Piece(surface, libelle, this.id));
+            return true;
+        }
+        return false;
     }
 
     public float getSurface(){
